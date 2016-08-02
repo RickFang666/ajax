@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>原生ajax-状态值得含义</title>
+	<script type="text/javascript">
+	window.onload = function(){
+		//第一步：创建xhr对象
+		var xhr = null;
+		if(window.XMLHttpRequest){//标准浏览器
+			xhr = new XMLHttpRequest();
+		}else{//早期的IE浏览器
+			xhr = new ActiveXObject('Microsoft.XMLHTTP');
+		}
+		console.log("状态q"+xhr.readyState);
+		//第二步：准备发送请求-配置发送请求的一些行为
+		xhr.open('get','03form.php',true);
+		console.log("状态w"+xhr.readyState);
+
+		//第三步：执行发送的动作
+		xhr.send(null);
+		console.log("状态e"+xhr.readyState);
+
+		//第四步：指定一些回调函数
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState == 4){
+				if(xhr.status == 200){
+					var data = xhr.responseText;//json
+					// var data1 = xhr.responseXML;
+				}
+			}
+			// console.log("状态t"+xhr.readyState);
+
+			// console.log(1234);
+		}
+
+		// console.log(456);
+		console.log("状态r"+xhr.readyState);
+
+
+	}
+	</script>
+</head>
+<body>
+	<div>
+		<div id="showInfo"></div>
+		<form>
+			用户名：<input type="text" name="username" id="username"><br>
+			密码：<input type="password" name="password" id="password"><br>
+			<input type="submit" value="提交" id="btn">
+		</form>
+
+	</div>
+</body>
+</html>
