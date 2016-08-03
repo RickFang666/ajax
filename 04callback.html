@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>回调函数</title>
+</head>
+<body>
+<input type="button" id="btn" value="点击">
+	<script type="text/javascript">
+
+	var btn = document.getElementById('btn');
+
+	window.onload = function(){
+		console.log(456);
+	}
+	btn.onclick = function(){
+		console.log(123);
+	}
+
+	// var fn = function(){
+	// 	console.log(123);
+	// }
+	// setTimeout(fn,1000);
+	// console.log(345);
+
+	// console.log(12);
+
+
+
+
+
+	</script>
+</body>
+</html>
