@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>EMS</title>
+	<style type="text/css">
+		#ems{
+			position: absolute;
+			left: 50%;
+			width: 400px;
+			height: auto;
+			margin-left: -200px;
+			background: lightGreen;
+			text-align: center;
+			min-height: 50px;
+			height: 500px;
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
+		#ems input{
+			height: 25px;
+			margin-top: 10px;
+		}
+		#list{
+			background: lightBlue;
+		}
+		#list li{
+			text-align: left;
+		}
+	</style>
+	
+</head>
+<body>
+<div id="ems">
+	<div>
+		<input type="text" id="code">
+		<input type="button" value="查询" id="btn">
+	</div>
+	<div id="list">
+	</div>
+</div>
+<script type="text/javascript">
+	window.onload = function(){
+		var btn = document.getElementById('btn');
+		btn.onclick = function(){
+			var code = document.getElementById('code').value;
+			var xhr = null;
+			try{
+				xhr = new XMLHttpRequest();
+			}catch(e){
+				xhr = new ActiveXObject('Microsoft.XMLHTTP');
+			}
+			xhr.open('get','07ems.php?code='+code);
+
+			xhr.send(null);
+
+			xhr.onreadystatechange = function(){
+
+				if(this.readyState == 4 && this.status == 200){
+					var data = JSON.parse(this.responseText);
+					if(data.status == 0){
+						var list = data.data.info.context;
+						var tag = '';
+						for(var i=0;i<list.length;i++){
+							var item = list[i];
+							var desc = item.desc;
+							var t = new Date();
+			    	        t.setTime(item.time+'000');
+							var str = t.getFullYear()+'年'+(t.getMonth()+1)+'月'+t.getDay()+'日'+(t.getHours()>12?' 下午':' 上午')+t.getHours()%12+':'+t.getMinutes()+':'+t.getSeconds();
+
+			    			tag += '<li><div>'+str+'</div><div>'+item.desc+'</div></li>';
+
+						}
+
+						var ul = document.createElement('ul');
+						ul.innerHTML = tag;
+						document.getElementById('list').appendChild(ul);
+
+					}else{
+						var info = data.msg;
+						document.getElementById('list').innerHTML = info;
+					}
+
+
+				}
+				
+
+
+			}
+
+			//这里的代码依然执行
+
+
+
+
+
+		}
+	}
+</script>
+</body>
+</html>

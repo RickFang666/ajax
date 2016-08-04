@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>jquery的ajax</title>
+</head>
+<body>
+<input type="button" value="点击" id="btn">
+<script type="text/javascript" src="jquery-1.11.2.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#btn").click(function(){
+          $.ajax({
+			 type : "get",
+			 url : './05open.php?username=中国&password=123',
+			 success : function(data){
+			 	console.log(data);
+			 }
+		  });
+
+		});
+	});
+
+</script>
+</body>
+</html>
