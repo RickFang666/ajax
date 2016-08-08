@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jquery-ajax</title>
+</head>
+<body>
+<input type="button" value="点击" id="btn">
+<div id="showInfo"></div>
+<script type="text/javascript" src="jquery-1.11.2.js"></script>
+<script type="text/javascript">
+	$(function(){
+
+		$("#btn").click(function(){
+			$.ajax({
+				url:"04data.php",
+				dataType:"text",
+				type:"get",
+				success:function(data){
+					alert(data);
+					//$("#showInfo").html(data);
+				},
+				error:function(e){
+					console.log(e);
+				}
+			});
+		});
+
+
+
+	});
+
+</script>
+</body>
+</html>
