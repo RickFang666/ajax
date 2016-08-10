@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>function专题</title>
+</head>
+<body>
+<script type="text/javascript">
+
+
+
+// function fn(){
+// 	console.log(1111);
+// }
+// var abc;
+// var fn1;
+
+// function 函数名(参数列表。。。){
+// 	//函数功能代码
+// }
+
+// fn();
+
+// function fn(){
+// 	console.log(1111);
+// }
+
+// var fn1 = function(){
+// 	console.log(1111);
+// };
+// var abc = '123';
+// fn();
+
+
+//javascript 代码运行分连个阶段：
+// 1、预解析  --- 把所有的函数定义提前，所有的变量声明提前，变量的赋值不提前
+// 2、执行  --- 从上到下执行  （setTimeout，setInterval,ajax中的回调函数，事件中的函数需要触发执行）
+
+// var obj = {
+// 	name:"zhangsan",
+// 	say:function(){
+// 		console.log("hello");
+// 	}
+// };
+
+
+
+// var cb = function(){
+// 	console.log(123);
+// }
+
+// function fn2(callback){
+// 	callback();
+// }
+
+// fn2(obj.say);
+
+// //结论：函数的参数可以是一个函数，这个函数可以直接调用
+
+
+// function fn4(){
+// 	var n = 1;
+
+// 	var fn = function(){
+// 		n ++;
+// 		console.log(n);
+// 	}
+
+// 	return fn;
+// }
+
+// var fn5 = fn4();
+// fn5();
+// fn5();
+// fn5();
+
+//结论：函数可以作为返回值
+//函数的嵌套形成闭包
+
+// var i=3;
+// var data = [];
+// for(i=0;i<3;i++){
+// 	data[i] = function(){
+// 		console.log(i);
+// 	}
+// }
+
+// data[0]();
+// data[1]();
+// data[2]();
+
+var i=3;
+var data = [];
+for(i=0;i<3;i++){
+	data[i] = (function(k){
+
+
+
+		return function(){
+			console.log(k);
+		}
+
+
+
+
+
+		
+	})(i);
+}
+
+data[0]();
+data[1]();
+data[2]();
+
+
+
+
+
+</script>
+</body>
+</html>
