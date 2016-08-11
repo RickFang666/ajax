@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>function专题</title>
+</head>
+<body>
+<script type="text/javascript">
+
+function  JuiceMachine(fruit){
+	this.fruit = fruit;
+	this.produceJuice = function(){
+		console.log(this.fruit + '果汁');
+	}
+}
+
+
+JuiceMachine.produceJuice();
+// JuiceMachine.brand = '九阳';
+// JuiceMachine.open = function(){
+// 	console.log('open');
+// }
+
+// var apple = new JuiceMachine("苹果");
+// apple.produceJuice();
+// var brand = apple.brand;
+
+// var orange = new JuiceMachine("橘子");
+// orange.produceJuice();
+
+
+//结论：function有双重身份：
+//1、对象
+//2、构造函数
+
+</script>
+</body>
+</html>
