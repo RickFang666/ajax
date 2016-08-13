@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jsonp</title>
+</head>
+<body>
+	<script type="text/javascript">
+	function cb(data){
+		console.log(data);
+	}
+// callback(["zhangsan","lisi","zhaoliu"])
+	</script>
+
+	<script type="text/javascript" src="jsonp.php?_jsonp=cb"></script>
+</body>
+</html>
