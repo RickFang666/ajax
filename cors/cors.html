@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>跨域资源共享</title>
+</head>
+<body>
+<script type="text/javascript">
+	function callback(data){
+		console.log(data[0]);
+	}
+	//后台返回的是函数调用（函数的参数是json数据），而不是json数据
+</script>
+<script type="text/javascript">
+callback(['zhangsan','lisi','wangwu']);
+</script>
+
+
+</body>
+</html>

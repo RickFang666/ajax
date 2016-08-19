@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jquery跨域jsonp</title>
+</head>
+<body>
+<input type="button" id="btn" value="点击">
+<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+
+	$.ajax({
+		type : "get",
+		async: false,
+		url : "./jsonp.php",
+		dataType : "jsonp",
+		//jsonp: "qwe",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(默认为:callback)
+		//jsonpCallback:"liudehua",//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名(类似：jQuery1102016820125747472048_1450147653563(["zhangsan", "lisi", "wangwu"]);)
+		success : function(data){
+		    console.log(data);
+		},
+		error:function(){
+		    console.log('fail');
+		}
+	});
+
+});
+
+</script>
+</body>
+</html>

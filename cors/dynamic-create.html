@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>动态创建script标签</title>
+</head>
+<body>
+<input type="button" id="btn" value="点击">
+<input type="button" id="weibo" value="点击">
+<ul id="result">
+
+</ul>
+<ul id="weiboResult">
+
+</ul>
+<script type="text/javascript">
+	function callback(data){
+		var ul = document.getElementById('result');
+		console.log(ul);
+		if(data.length){
+			var html = '';
+			for(var i=0; i<data.length; i++){
+				html += '<li>' + data[i] + '</li>';
+			}
+			ul.innerHTML = html;
+		}
+	}
+	function weibo(data){
+		var ul = document.getElementById('weiboResult');
+		if(data.data.length){
+			var html = '';
+			for(var i=0; i<data.data.length; i++){
+				html += '<li>' + data.data[i] + '</li>';
+			}
+			ul.innerHTML = html;
+		}
+	}
+	window.onload = function(){
+		var btn = document.getElementById('btn');
+		btn.onclick = function(){
+			var script = document.createElement('script');
+			script.src = './jsonp.php?cb=callback';
+			document.body.appendChild(script);
+		}
+		var weibo = document.getElementById('weibo');
+		weibo.onclick = function(){
+			var script = document.createElement('script');
+			script.src = 'http://s.weibo.com/ajax/jsonp/suggestion?_cb=weibo&key=a';
+			document.body.appendChild(script);
+		}
+	}
+</script>
+</body>
+</html>
