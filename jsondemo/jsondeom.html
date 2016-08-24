@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>json实例</title>
+</head>
+<body>
+<input id="btn" value="json" type="button">
+<script type="text/javascript">
+	window.onload = function(){
+		var btn = document.getElementById('btn');
+		btn.onclick = function(){
+			var xhr = null;
+			if(window.XMLHttpRequest){
+				xhr = new XMLHttpRequest();
+			}else{
+				xhr = new ActiveXObject('Microsoft.XMLHTTP');
+			}
+			xhr.open("post","./jsondemo.php",true);
+			xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState == 4){
+					if(xhr.status == 200){
+						var data = xhr.responseText;
+						var obj = JSON.parse(data);
+						var obj1 = eval("("+data+")");
+						console.log(obj.username);
+						console.log(obj.age);
+						console.log(obj1.username);
+						console.log(obj1.age);
+
+					}else{
+						console.log('failure');
+					}
+				}
+			}
+			var param = '{"username":"zhangsan","age":"12"}';
+			xhr.send("user="+param);
+		}
+	}
+</script>
+</body>
+</html>
