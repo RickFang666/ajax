@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>xml数据格式</title>
+</head>
+<body>
+<script type="text/javascript">
+	
+
+var is_Ie = false; //是否为IE浏览器
+if (window.ActiveXObject) {
+	is_Ie = true;
+}
+//加载多浏览器兼容的xml文档
+function loadXml(xmlUrl) {
+	var xmldoc = null;
+	try {
+		xmldoc = new ActiveXObject("Microsoft.XMLDOM");
+	} catch (e) {
+		try {
+			xmldoc = document.implementation.createDocument("", "", null);
+		} catch (e) {
+			alert(e.message);
+		}
+	}
+	try {
+		//关闭异步加载
+		xmldoc.async = false;
+		xmldoc.load(xmlUrl);
+		return xmldoc;
+	} catch (e) {
+		alert(e.message);
+	}
+	returnnull;
+}
+//将一个xml文档格式的字符串换成xml文档
+function createXml(xmlText) {
+	if (!xmlText) {
+		returnnull;
+		try {
+			var xmldocm = new ActiveXObject("Microsoft.XMLDOM");
+			xmldocm.loadXML(xmlText);
+			return xmldocm;
+		} catch (e) {
+			try {
+				return new DOMParse().parseFromString(xmlText, "text/xml");
+			} catch (e) {
+				return null;
+			}
+		}
+	}
+}
+//获取节点及其子节点的文本
+function getXmlText(oNode) {
+	if (oNode.text) { //IE
+		return oNode.tex;
+	}
+	var sText = "";
+	for (var i = 0; i < oNode.childNodes.length; i++) { //遍历子节点
+		if (oNode.childNodes[i].hasChildNodes()) { //是否有子节点
+			sText += getXmlText(oNode.childNodes[i]);
+		} else {
+			sText += oNode[i].childNodes.nodeValue;
+		}
+	}
+	return sText;
+}
+
+//获取节点及其子节点的字符串标识
+function getXml(oNode) {
+	if (oNode.xml) { //IE
+		return oNode.xml;
+	}
+	var serializer = new XMLSerializer();
+	return serializer.serializeToString(oNode);
+
+}
+//获取指定节点的文本
+function getxmlnodeText(oNode) {
+	if (is_Ie) {
+		return oNode.text;
+	} else {
+		if (oNode.nodeType == 1)
+			return oNode.textContent;
+	}
+}
+//获取指定节点的属性值
+function getxmlnodeattribute(oNode, attrName) {
+	if (is_Ie) {
+		return oNode.getAttribute(attrName);
+	} else {
+		if (oNode.nodeType == 1 || oNode.nodeType == "1")
+			return oNode.attributes[attrName].value;
+		return "undefined";
+	}
+} 
+</script>
+</body>
+</html>

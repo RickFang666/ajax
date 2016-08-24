@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>xml格式文档解析</title>
+</head>
+<body>
+<input type="button" id="btn" value="点击">
+<div id="info"></div>
+<script type="text/javascript">
+	//根据文本创建xml对象
+    function createXml(data){
+    	if(!data){
+    		return null;
+    	}
+    	var xml = null;
+    	try{
+    		xml = new ActiveXObject('Microsoft.XMLDOM');
+    		xml.loadXML(data);
+    	} catch(e){
+    		try{
+                xml = (new DOMParser()).parseFromString(data,'text/xml');	
+    		} catch(e){
+    	  	  	return null;
+    		}
+    	}
+    	return xml;
+    }
+    //获取文本节点内容
+    function getNodeText(node){
+    	if(window.ActiveXObject){
+    		return node.text;
+    	}else{
+    		if(node.nodeType == 1){
+    			return node.textContent;
+    		}
+    	}
+    }
+    //获取几点的属性
+    function getNodeAttribute(node,attrName){
+    	if(window.ActiveXObject){
+    		return node.getAttribute(attrName);
+    	}else{
+    		if(node.nodeType == 1){
+    			return node.attributes[attrName].value;
+    		}else{
+    			return undefined;
+    		}
+    	}
+    }
+
+
+
+	window.onload = function(){
+		var btn = document.getElementById('btn');
+		btn.onclick = function(){
+			var xml = '<?xml version="1.0" encoding="utf-8"?><student class="高三1班"><username>zhangsan</username><age>12</age></student>';
+			var obj = createXml(xml);
+
+			var stu = obj.getElementsByTagName("student")[0];
+			var username = stu.getElementsByTagName('username')[0];
+			var age = stu.getElementsByTagName('age')[0];
+			var info = document.getElementById('info');
+			var t = getNodeText(age);
+			var a = getNodeAttribute(stu,"class");
+			console.log(a);
+			info.appendChild(username.childNodes[0]);
+			info.appendChild(age.childNodes[0]);
+		}
+	}
+
+</script>
+</body>
+</html>

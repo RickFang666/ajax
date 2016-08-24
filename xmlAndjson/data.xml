@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<info>
+<Item>
+<id descrption="级别" name="1" f_chines="编号" t_chines="編號" english="id" value="1">编号</id>
+<levelname descrption="级别" name="" f_chines="级别名称" t_chines="級別名稱" english="Level-Name" value="级别一">级别名称</levelname>
+<decrption descrption="级别" name="" f_chines="级别描述" t_chines="級別描述" english="Level-Description" value="级别描述一">描述</decrption>
+<Tchines descrption="级别" name="" f_chines="繁体中文" t_chines="繁體中文" english="T-Chinese" value="級別一">繁体中文</Tchines>
+<english descrption="级别" name="" f_chines="英文名称" t_chines="英文名稱" english="English" value="LevelOne">英文名称</english>
+<奖项六 descrption="奖项" name="106" f_chines="奖项六" t_chines="獎項六" english="Worda-of-t" value="a"/>
+<奖项十一 descrption="奖项" name="111" f_chines="奖项十一" t_chines="獎項十一" english="11" value="0.05"/>
+<奖项十二 descrption="奖项" name="112" f_chines="奖项十二" t_chines="獎項十二" english="2222" value="0.04"/>
+<奖项十三 descrption="奖项" name="113" f_chines="奖项十三" t_chines="獎項十三" english="3333" value="0.85"/>
+<奖项一 descrption="奖项" name="101" f_chines="奖项一" t_chines="獎項一" english="Aword-of-a" value="0.90"/>
+</Item> 
+</info>
