@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ajax表单提交</title>
+	<style type="text/css">
+		#infoArea{
+			background: lightGreen;
+			width: 300px;
+			height: 300px;
+			position: absolute;
+			left: 50%;
+			margin-left: -150px;
+		}
+		#infoArea div{
+			width: 300px;
+			height: 30px;
+			line-height: 30px;
+			text-align: center;
+			color: blue;
+			font: bold;
+		}
+		#btn{
+			margin-top: 30px;
+		}
+		#bookList{
+			background: lightBlue;
+			position: absolute;
+			top: 330px;
+			left: 50%;
+			margin-left:-450px;
+			width:900px;
+		}
+		#bookList table{
+			border-right:1px solid red;
+			border-bottom: 1px solid red;
+		}
+		#bookList table tbody tr th,td{
+			border-top: solid 1px red;
+			border-left: solid 1px red;
+			width: 160px;
+			text-align: center;
+		}
+	</style>
+	<script type="text/javascript">
+	window.onload = function(){
+		function ajax(data,callback){
+			var xhr = null;
+			if(window.XMLHttpRequest){
+				xhr = new XMLHttpRequest();
+			}else{
+				xhr = new ActiveXObject('Micosoft.XMLHTTP');
+			}
+			xhr.open("post","./bookInfo.php","true");
+			xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState == 4 && xhr.status == 200){
+					if(typeof callback == 'function'){
+						callback(xhr.responseText);
+					}
+				}
+			}
+			xhr.send(data);
+		}
+
+
+        function getData(flag,id){
+        	var param = '';
+    		var bookName = document.getElementById('bookName').value;
+    		param += 'bookName=' + bookName + '&';
+			var bookAuthor = document.getElementById('bookAuthor').value;
+    		param += 'bookAuthor=' + bookAuthor + '&';
+			var recObjs = document.getElementsByName('recommend');
+			var recommend = '';
+			for(var i=0;i<recObjs.length;i++){
+				if(recObjs[i].checked){
+					recommend = recObjs[i].value;
+				}
+			}
+    		param += 'recommend=' + recommend + '&';
+			var catObjs = document.getElementsByName('category');
+			var category = '';
+			for(var i=0;i<catObjs.length;i++){
+				if(catObjs[i].checked){
+					category += catObjs[i].value+',';
+				}
+			}
+			if(category.length>0){
+				category = category.substring(0,category.length-1);
+			}
+    		param += 'category=' + category + '&';
+
+			var bookDesc =document.getElementById('bookDesc').value;
+    		param += 'bookDesc=' + bookDesc + '&';
+			//return encodeURI(param);
+			param += 'flag='+flag+'&id='+id;
+			return param;
+        }
+
+        var btn = document.getElementById('btn');
+        var callback = function(data){
+			data = JSON.parse(data);
+			var tbody = document.getElementsByTagName('tbody')[0];
+			tbody.innerHTML = '';
+			var title = '<th>图书名称</th><th>图书作者</th><th>图书分类</th><th>是否推荐</th><th>图书描述</th><th>操作</th>';
+			var th = document.createElement('tr');
+			th.innerHTML = title;
+			tbody.appendChild(th);
+			
+			for(var i = 0;i < data.length; i++){
+				var str = '';
+				str += '<td>'+data[i].bookName+'</td>';
+				str += '<td>'+data[i].bookAuthor+'</td>';
+				str += '<td>'+data[i].category+'</td>';
+				str += '<td>'+data[i].recommend+'</td>';
+				str += '<td>'+data[i].bookDesc+'</td>';
+				str += '<td><span id="deleleId'+data[i].id+'"><a href="javascript:void(0)">删除</a></span>|<span id="updateId'+data[i].id+'"><a href="javascript:void(0)">更新</a></span></td>';
+				var tr = document.createElement('tr');
+				tr.id = data[i].id;
+				var nowId = data[i].id;
+				tr.innerHTML = str;
+				tbody.appendChild(tr);
+				// document.getElementById("deleleId"+data[i].id).onclick = function(){
+				// 	function del(idd){
+				// 		ajax("flag=2&id="+idd,function(){
+				// 		    var tr = document.getElementById(idd);
+				// 	        tr.parentNode.removeChild(tr);						
+				// 		});
+				// 	}
+				// 	// alert(data[i].id);不可以这样取值，因为此时的i值已经等于data的长度
+				// 	del(nowId);
+				// }
+				document.getElementById("deleleId"+data[i].id).onclick = (function(id){
+					return function(){
+						ajax("flag=2&id="+id,function(){
+						    var tr = document.getElementById(id);
+					        tr.parentNode.removeChild(tr);						
+						});
+					}
+				})(data[i].id);
+				document.getElementById("updateId"+data[i].id).onclick = (function(id){
+					return function(){
+						ajax("flag=3&id="+id,function(data){
+							document.getElementById('formid').reset();
+							data = JSON.parse(data);
+						    var id = data.id;
+						    var bookName = data.bookName;
+						    var bookAuthor = data.bookAuthor;
+						    var category = data.category;
+						    var bookDesc = data.bookDesc;
+						    var recommend = data.recommend;
+						    document.getElementById('id').value = id;
+						    document.getElementById('bookName').value = bookName;
+						    document.getElementById('bookAuthor').value = bookAuthor;
+						    var recObjs = document.getElementsByName('recommend');
+						    if(recommend == 1){
+						    	recObjs[0].checked = true;
+						    }else if(recommend == 2){
+						    	recObjs[1].checked = true;
+						    }
+						    var catObjs = document.getElementsByName('category');
+						    if(category!=''){
+						    	var arr = category.split(',');
+						    	for(var i=0;i<arr.length;i++){
+						    		if(arr[i] == 1){
+						    			catObjs[0].checked = true;
+						    		}else if(arr[i] == 2){
+						    			catObjs[1].checked = true;
+						    		}else if(arr[i] == 3){
+						    			catObjs[2].checked = true;
+						    		}
+						    	}
+						    }
+						    document.getElementById('bookDesc').value = bookDesc;
+						    document.getElementById('opeInfo').innerHTML ='修改图书信息';
+					        					
+						});
+					}
+				})(data[i].id);
+			}
+			document.getElementById('id').value = '';
+			document.getElementById('opeInfo').innerHTML ='添加图书信息';
+			document.getElementById('formid').reset();
+    	};
+
+        btn.onclick = function(){
+        	var id = document.getElementById('id').value;
+        	var p = null;
+        	if(id){
+                p = getData(4,id);//修改
+        	}else{
+        		p = getData(1,0);//添加
+        	}
+        	ajax(p,callback);
+        }
+    	var p = getData(1);
+    	ajax(p,callback);
+
+	}
+
+	</script>
+</head>
+<body>
+<div id="infoArea">
+	<form id="formid">
+		<div id="opeInfo">添加图书信息</div>
+    	<div><input type="hidden" id="id">
+    	<span>图书名称</span><span><input type="text" id="bookName"></span></div>
+    	<div><span>图书作者</span><span><input type="text" id="bookAuthor"></span></div>
+    	<div><span>是否推荐</span>
+	    	<span>
+	    	    是<input type="radio" name="recommend" value="1">
+				否<input type="radio" name="recommend" value="2">
+	    	</span>
+    	</div>
+    	<div><span>图书分类</span>
+    	<span>
+    		<input type="checkbox" name="category" value="1">计算机
+    		<input type="checkbox" name="category" value="2">文学
+    		<input type="checkbox" name="category" value="3">会计
+
+    	</span>
+    	</div>
+    	<div><span>图书描述</span><textarea id="bookDesc" rows="3" cols="20"></textarea></div>
+    	<div><input id="btn" type="button" value="提交"></div>
+
+	</form>
+</div>
+
+
+<div id="bookList">
+	<table cellspacing="0" cellpadding="0">
+		<tbody>
+		    <tr>
+				<th>图书名称</th>
+				<th>图书作者</th>
+				<th>图书分类</th>
+				<th>是否推荐</th>
+				<th>图书描述</th>
+				<th>操作</th>
+			</tr>
+
+		</tbody>
+	</table>
+</div>
+</body>
+</html>
