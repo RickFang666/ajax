@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>EMS-jquery查询</title>
+	<style type="text/css">
+		#ems{
+			position: relative;
+			left: 50%;
+			width: 400px;
+			height: auto;
+			margin-left: -200px;
+			background: lightGreen;
+			text-align: center;
+			min-height: 50px;
+			height: 500px;
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
+		#ems input{
+			height: 25px;
+			margin-top: 10px;
+		}
+		#list{
+			background: lightBlue;
+		}
+		#list li{
+			text-align: left;
+		}
+	</style>
+	<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+<div id="ems">
+	<div>
+		<input type="text" id="code">
+		<input type="button" value="查询" id="btn">
+	</div>
+	<div id="list">
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		$('#btn').click(function(){
+			var code = $('#code').val();
+			var url ='./ems.php?code='+code;
+			queryEMS(url);
+		});
+	});
+
+	function queryEMS(url){
+		document.getElementById('list').innerHTML = '';
+		$.ajax({
+			type : "get",
+			async: true,
+			url : url,
+			dataType : "jsonp",
+			jsonp: "cb",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(默认为:callback)
+			//jsonpCallback:"callback",//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名(类似：jQuery1102016820125747472048_1450147653563(["zhangsan", "lisi", "wangwu"]);)
+			success : function(data){
+				if(data.status != 0){
+			    	document.getElementById('list').innerHTML = data.msg;
+			    	return false;
+			    }
+			    var list = data.data.info.context;
+
+			    var tag = '';
+			    for(var i=0;i<list.length;i++){
+			    	var info = list[i];
+			    	var t = new Date();
+			    	t.setTime(info.time+'000');
+			    	var str = t.getFullYear()+'年'+(t.getMonth()+1)+'月'+t.getDay()+'日'+(t.getHours()>12?' 下午':' 上午')+t.getHours()%12+':'+t.getMinutes()+':'+t.getSeconds();
+			    	tag += '<li><div>'+str+'</div><div>'+info.desc+'</div></li>'
+			    }
+			    var ul = document.createElement('ul');
+			    ul.innerHTML = tag;
+			    document.getElementById('list').appendChild(ul);
+
+			},
+			error:function(){
+			    console.log('fail');
+			}
+		});
+	}
+</script>
+</body>
+</html>
