@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>城市天气</title>
+	<style type="text/css">
+		#weather{
+			position: absolute;
+			left: 50%;
+			margin-left: -150px;
+			width: 300px;
+			background: lightGreen;
+			height: 500px;
+			text-align: center;
+		}
+		#weather select,input{
+			height: 30px;
+			margin-top: 10px;
+		}
+		#weaInfo{
+			background: lightBlue;
+			width: 300px;
+			margin-top: 10px;
+		}
+		#weaInfo ul{
+			padding-left: 0px;
+			list-style: none;
+			text-align: left;
+			padding-top: 10px;
+		}
+		#weaInfo ul li{
+			height: 30px;
+			padding-left: 50px;
+		}
+	</style>
+	<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>	
+</head>
+<body>
+<div id="weather">
+	<div>
+		<select>
+			<option value="1">北京</option>
+			<option value="2">上海</option>
+			<option value="3">广州</option>
+			<option value="4">深圳</option>
+		</select>
+		<input type="button" value="查询" id="btn">
+	</div>
+	<div id="weaInfo"></div>
+</div>
+<script type="text/javascript">
+	$(function(){
+
+		$('#btn').click(function(){
+			var cityName = $('#weather select option:selected').text();
+			queryWeather(cityName);
+		});
+
+	});
+
+
+    function queryCitycode(cityCode){
+    	$.ajax({
+			type : "get",
+			url : './weather.php',
+			dataType : "json",
+			data:{cityCode:cityCode},
+			success : function(data){
+				var wea = data.retData;
+				//解析天气内容
+				// var tag = '';
+				// tag += '<li>经度:' +wea.longitude+ '</li>';
+				// tag += '<li>维度:' +wea.latitude+ '</li>';
+				// tag += '<li>海拔高度:' +wea.altitude+ '</li>';
+				// tag += '<li>天气:' +wea.weather+ '</li>';
+				// tag += '<li>温度:' +wea.temp+ '</li>';
+				// tag += '<li>最高温度:' +wea.h_tmp+ '</li>';
+				// tag += '<li>最低温度:' +wea.l_tmp+ '</li>';
+				// tag += '<li>风向:' +wea.WD+ '</li>';
+				// tag += '<li>风速:' +wea.WS+ '</li>';
+				// tag += '<li>日出时间:' +wea.sunrise+ '</li>';
+				// tag += '<li>日落时间:' +wea.sunset+ '</li>';
+
+				// var info = $('<ul>').html(tag);
+				// $('#weaInfo').html(info);
+			},error:function(){
+			    console.log('fail');
+			}
+		});
+    }
+	function queryWeather(cityName){
+		$.ajax({
+			type : "get",
+			url : './citycode.php',
+			dataType : "json",
+			data:{cityName:cityName},
+			success : function(data){
+				queryCitycode(data.retData.cityCode);
+			},error:function(){
+			    console.log('fail');
+			}
+		});
+
+ 
+	}
+
+
+
+
+</script>
+</body>
+</html>
