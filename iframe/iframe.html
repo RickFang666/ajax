@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>iframe无刷新</title>
+	<style type="text/css">
+	#loginInfo{
+		position: absolute;
+		left: 50%;
+		margin-left: -150px;
+		width: 300px;
+		background: lightgreen;
+		padding: 10px;
+		text-align: center;
+	}
+	</style>
+</head>
+<body>
+<script type="text/javascript">
+	window.onload = function(){
+		var btn = document.getElementById('btn');
+
+	}
+
+</script>
+<div id="loginInfo">
+    <div id="showInfo"></div>
+	<form action="./data.php" method="post" target="myframe">
+		姓名：<input type="text" name="username"><br>
+		密码：<input type="password" name="password"><br>
+		年龄：<input type="text" name="age"><br>
+			  <input type="submit" id="btn" value="提交"><br>
+	</form>
+</div>
+<iframe width="0" height="0" frameborder="0" name="myframe"></iframe>
+</body>
+</html>
