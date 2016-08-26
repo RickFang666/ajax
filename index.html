@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ajax实例</title>
+</head>
+<body>
+<div>测试数据</div>
+<input type="button" value="点击" id="btn"> 
+<script type="text/javascript">
+	window.onload = function(){
+		var btn = document.getElementById('btn');
+		btn.onclick = function(){
+			var xhr = null;
+			if(window.XMLHttpRequest){
+				xhr = new XMLHttpRequest();
+			}else{
+				xhr = new ActiveXObject('Mcrosoft.XMLHTTP');
+			}
+			console.log('1状态吗'+xhr.readyState);
+			xhr.open("get","./demo.php",true);
+			console.log('2状态吗'+xhr.readyState);
+			//xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhr.onreadystatechange = function(){
+				console.log('3状态吗'+xhr.readyState);
+				if(xhr.readyState == 4){
+					console.log('4状态吗'+xhr.readyState);
+					if(xhr.status == 200){
+						var data = xhr.responseText;
+						console.log(data);
+					}else{
+						console.log('failure!');
+					}
+				}
+			}
+			xhr.send(null);
+			console.log('5状态吗'+xhr.readyState);
+		}
+	}
+
+
+</script>
+</body>
+</html>
