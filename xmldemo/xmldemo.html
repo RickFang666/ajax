@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>xml实例</title>
+</head>
+<body>
+<input type="button" id="btn" value="点击">
+<script type="text/javascript">
+window.onload = function(){
+	var btn = document.getElementById('btn');
+	btn.onclick = function(){
+		var xhr = null;
+		if(window.XMLHttpRequest){
+			xhr = new XMLHttpRequest();
+		}else{
+			xhr = new ActiveXObject("Microsft.XMLHTTP");
+		}
+		xhr.open("post","xmldemo.php",true);
+		xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState == 4){
+				if(xhr.status = 200){
+					var data = xhr.responseText;//字符串
+					var xmlDoc = xhr.responseXML;//xml对象
+					console.log(data+"----");
+					var eName = xmlDoc.getElementsByTagName('username')[0];
+					var eAge = xmlDoc.getElementsByTagName('age')[0];
+					var username = eName.childNodes[0];
+					var age = eAge.childNodes[0];
+					console.log(username);
+					console.log(age);
+
+				}else{
+					console.log('failure');
+				}
+			}
+		}
+		var param = "<user><username>张三</username><age>23</age></user>";
+		xhr.send("user="+param);
+	}
+}
+	
+</script>
+</body>
+</html>
