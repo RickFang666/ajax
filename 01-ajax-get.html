@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.onload = function () {
+            document.getElementById("btn").onclick = function () {
+                var time = document.getElementById("time");
+                time.innerHTML = "正在拼命获取时间...";
+                //向服务器发送异步请求，获取时间
+                //1 创建XMLHttpRequest
+                var xhr = null;
+                if (XMLHttpRequest) {
+                    xhr = new XMLHttpRequest();
+                }else{
+                    //兼容IE6以前的老IE
+                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+
+                //2 初始化
+                var random = Math.random();
+                xhr.open("get","php/01-gettime.php?_="+random,true);
+                //3 注册XMLHttpRequest状态发生改变的事件（回调函数）
+                xhr.onreadystatechange = function () {
+                    //判断注册XMLHttpRequest的状态
+
+                    //0 XMLHttpRequest创建完对象
+                    //1 初始化完成 open
+                    //2 发送请求  send
+                    //3 正在接收数据
+                    //4 接收完成
+                    if (xhr.readyState == 4) {
+                        //判断http响应的状态码，是否成功
+                        if (xhr.status == 200) {
+                            time.innerHTML = xhr.responseText;
+                        }else{
+                            time.innerHTML = "服务器内部错误";
+                        }
+
+                    }
+                }
+                //4 发送请求
+                xhr.send(null);
+            }
+        }
+    </script>
+</head>
+<body>
+<input type="button" value="gettime" id="btn">
+<div id="time"></div>
+
+
+</body>
+</html>

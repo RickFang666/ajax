@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/ajax.js"></script>
+    <script>
+        window.onload = function () {
+            document.getElementById("btn").onclick = function () {
+                ajax({
+                    type:"get",
+                    url:"php/01-gettime.php",
+                    async:true,
+                    data:null,
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function () {
+                        alert("错误");
+                    }
+                })
+            }
+        }
+        
+    </script>
+</head>
+<body>
+<input type="button" value="gettime" id="btn">
+<div id="time"></div>
+</body>
+</html>

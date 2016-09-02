@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.onload = function () {
+            document.getElementById("btn").onclick = function () {
+                var msg = document.getElementById("msg");
+                msg.innerHTML = "正在拼命的登录...";
+                //验证用户名、密码是否输入   todo....
+
+
+                //准备好要post的数据
+                var name = document.getElementById("txtName").value;
+                var pwd = document.getElementById("txtPwd").value;
+                var data = "name="+ name +"&pwd="+ pwd;
+
+                //1
+                var xhr = null;
+                if (XMLHttpRequest) {
+                    xhr = new XMLHttpRequest();
+                }else{
+                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                //2
+                xhr.open("post","php/02-login.php",true);
+
+                //必须在open之后。设置请求头
+                xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+
+                //3
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == 200) {
+                            //处理服务器返回的结果
+                            var result = xhr.responseText;
+                            //0 失败  1成功
+                            if (result == 1) {
+                                msg.innerHTML = "登录成功";
+                            }else{
+                                msg.innerHTML = "登录失败";
+                            }
+                        }else{
+                            msg.innerHTML = "服务器内部错误";
+                        }
+                    }
+                }
+                //4
+                xhr.send(data);
+            }
+        }
+    </script>
+</head>
+<body>
+<input type="text" id="txtName" placeholder="请输入用户名"><br />
+<input type="password"  id="txtPwd" placeholder="请输入密码"><br />
+
+<input type="button" value="登录" id="btn">
+<div id="msg"></div>
+</body>
+</html>
