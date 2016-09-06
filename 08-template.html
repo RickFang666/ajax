@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/template-native-debug.js"></script>
+    <script src="js/jquery-2.2.0.js"></script>
+
+    <script id="tpl" type="text/html">
+        <h3><%= className %></h3>
+        <ul>
+            <% for(var i = 0; i< students.length;i++) { %>
+                <li><%= i+1 %>. <%= students[i] %></li>
+            <% } %>
+        </ul>
+
+    </script>
+
+    <script>
+        var data = {
+            className:"前端1期",
+            students:["张飞","刘备","诸葛亮","甄姬","小乔","汪汪"]
+        };
+
+        $(function (){
+            var html = template("tpl",data);
+            $("#demo").html(html);
+        })
+    </script>
+</head>
+<body>
+
+    <div id="demo">
+
+    </div>
+</body>
+</html>
