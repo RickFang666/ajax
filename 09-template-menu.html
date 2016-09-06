@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .all {
+            margin-top: 30px;
+        }
+        .xh {
+            float: left;
+            margin-right: 20px;
+            color: red;
+            font-style: italic;
+            font-size: 30px;
+        }
+        #menu {
+            width: 500px;
+        }
+    </style>
+    <script src="js/jquery-2.2.0.js"></script>
+    <script src="js/template-native-debug.js"></script>
+    <script>
+        //给搜索按钮注册事件
+        $(function () {
+            $("#btnSearch").click(function () {
+                //
+                var menu = $("#menu");
+                menu.text("正在加载...");
+
+                //获取文本框的值
+                var txt = $("#txtSearch").val();
+                //对用户输入的内容进行url编码
+                txt = encodeURIComponent(txt);
+                //发送异步请求 jsonp
+                $.ajax({
+                    type:"get",
+                    url:"http://apis.juhe.cn/cook/query?key=3e1dcd706f3f21875c6d7c5035351d75&rn=3&pn=0&dtype=jsonp&menu=" + txt,
+                    dataType:"jsonp",
+                    success: function (data) {
+                        //清空容器
+                        menu.text("");
+                        //解析数据
+
+                        if (data.resultcode != 200) {
+                            menu.text("亲，没查到你要找的");
+                            return;
+                        }
+
+                        //
+                        var html = template("tpl",data.result);
+                        menu.html(html);
+
+                    },
+                    error: function () {
+                        menu.text("错误");
+                    }
+                });
+            });
+        })
+    </script>
+
+    <script id="tpl" type="text/html">
+        <% for (var i=0; i< data.length; i++) {  %>
+            <div class="all">
+                <h2><%= data[i].title %></h2>
+                <p class="intro"><%= data[i].imtro %></p>
+                <% for(var j=0; j< data[i].albums.length; j++)  { %>
+                    <img src="<%= data[i].albums[j] %>">
+                <% } %>
+                <p class="zl">主料：<%= data[i].ingredients %></p>
+                <p class="fl">辅料：<%= data[i].burden %></p>
+                <div class="steps">
+                    <% for(var k=0; k< data[i].steps.length; k++) { %>
+                        <em class="xh"><%= k+1 %>.</em>
+                        <div class="c">
+                            <p><%= data[i].steps[k].step %></p>
+                            <p><img src="<%= data[i].steps[k].img %>"></p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            <hr >
+        <% } %>
+    </script>
+</head>
+<body>
+<input type="text"  id="txtSearch"> <input type="button" value="搜索" id="btnSearch">
+
+<div id="menu">
+
+</div>
+</body>
+</html>
