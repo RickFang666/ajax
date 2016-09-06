@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <script>
+    function handle(data) {
+        alert(data.resultcode);
+    }
+</script>
+
+    //CDN
+    <!--<script src="http://v.juhe.cn/weather/index?format=1&cityname=%E5%8C%97%E4%BA%AC&key=e982f3629ae77eb7345b7e42f29b62ae&dtype=jsonp&callback=handle"></script>-->
+
+
+
+    
+    <script src="js/ajax.js"></script>
+    <script>
+        //浏览器的同源策略：约束当前的网站，不能使用XMLHttpRequest向另一个网站发送请求
+        //JSONP
+
+        //以get的方式请求跨域的地址，浏览器不允许。解决方案JSONP
+        window.onload = function () {
+            ajax({
+                type:"get",
+                url:"http://v.juhe.cn/weather/index?format=1&cityname=%E5%8C%97%E4%BA%AC&key=e982f3629ae77eb7345b7e42f29b62ae",
+                data:null,
+                async:true,
+                success: function (data) {
+                    alert(data);
+                },
+                error: function () {
+                    alert("错误");
+                }
+
+            })
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>
