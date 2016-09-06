@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-2.2.0.js"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                type:"get",
+                url:"http://v.juhe.cn/weather/index?format=1&cityname=%E5%8C%97%E4%BA%AC&key=e982f3629ae77eb7345b7e42f29b62ae&dtype=jsonp",
+                dataType:"jsonp",
+//                jsonp:"cb",     //将来会替换掉地址中的  callback
+//                jsonpCallback:"handle",   //生成一个全局的方法  handle
+                success: function (data) {
+                    alert(data.resultcode);
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>
