@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        //JSONP : 服务器把json数据包装到一个方法中
+        //客户端提供一个对应的方法，可以处理服务器返回的数据
+
+
+        window.onload = function () {
+            //动态创建script标签
+            var script = document.createElement("script");
+            document.body.appendChild(script);
+            script.src = "http://v.juhe.cn/weather/index?format=1&cityname=%E5%8C%97%E4%BA%AC&key=e982f3629ae77eb7345b7e42f29b62ae&dtype=jsonp&callback=handle";
+        }
+
+        //jsonp对应的方法
+        function handle(data) {
+            alert(data.resultcode);
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>
